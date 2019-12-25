@@ -1,152 +1,169 @@
 <template>
   <div id="app">
+    <div
+      id="floatingChoices"
+      class="fixed-top border border-secondary rounded floatingheader"
+    >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}}</div>
     <h1>Basic Fantasy RPG Character Creator</h1>
 
-    <h3>Choose Your Race</h3>
+    <div class="border border-secondary rounded onepercent" v-if="currentsection == sections.RACE">
+      <h3>Choose Your Race</h3>
+      <b-form-group>
+        <b-form-radio-group
+          id="btn-radios-2"
+          buttons
+          name="radio-btn-outline"
+          button-variant="outline-primary"
+          size="lg"
+        >
+          <b-button v-on:click="setRace(races.HUMAN)">HUMAN</b-button>
+          <b-button v-on:click="setRace(races.ELF)">ELF</b-button>
+          <b-button v-on:click="setRace(races.DWARF)">DWARF</b-button>
+          <b-button v-on:click="setRace(races.HALFLING)">HALFLING</b-button>
+        </b-form-radio-group>
+      </b-form-group>
 
-    <!--     <b-card no-body class="mb-1" v-on:click="character.race = 'human'">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block href="#" v-b-toggle.accordion-1 variant="info">Human</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <b-card-text>
-            <table class="table table-striped">
-              <tbody>
-                <tr>
-                  <td class="font-weight-bold">Ability Requirements</td>
-                  <td class="text-left">none</td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold">Classes</td>
-                  <td class="text-left">Any</td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold">Hit Die</td>
-                  <td class="text-left">Based on class</td>
-                </tr>
-              </tbody>
-            </table>
-          </b-card-text>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-
-    <b-card no-body class="mb-1" v-on:click="character.race = 'elf'">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block href="#" v-b-toggle.accordion-2 variant="info">Elf</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <b-card-text>{{ character.race }}</b-card-text>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-
-    <b-card no-body class="mb-1" v-on:click="character.race = 'dwarf'">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button
-          block
-          href="#"
-          v-b-toggle.accordion-3
-          variant="info"
-          v-on:click="counter += 1"
-        >Dwarf</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <b-card-text>{{ counter }}</b-card-text>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-
-    <b-card no-body class="mb-1" v-on:click="character.race = 'halfling'">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block href="#" v-b-toggle.accordion-3 variant="info">Halfling</b-button>
-      </b-card-header>
-      <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <b-card-text>{{ text }}</b-card-text>
-        </b-card-body>
-      </b-collapse>
-    </b-card>-->
-
-    <b-form-group>
-      <b-form-radio-group
-        id="btn-radios-2"
-        buttons
-        name="radio-btn-outline"
-        button-variant="outline-primary"
-        size="lg"
-      >
-        <b-button v-on:click="changeRace(races.human)">HUMAN</b-button>
-        <b-button v-on:click="changeRace(races.elf)">ELF</b-button>
-        <b-button v-on:click="changeRace(races.dwarf)">DWARF</b-button>
-        <b-button v-on:click="changeRace(races.halfling)">HALFLING</b-button>
-      </b-form-radio-group>
-    </b-form-group>
-
-    <table class="table table-striped" v-if="character.race != ''">
-      <tbody>
-        <tr>
-          <td class="font-weight-bold text-right" style="width: 50%">Ability Requirements</td>
-          <td class="text-left" role="cell">{{raceattributes.ar}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Classes</td>
-          <td class="text-left">{{raceattributes.class}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Hit Die</td>
-          <td class="text-left">{{raceattributes.hd}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Weapons</td>
-          <td class="text-left">{{raceattributes.weapons}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Special</td>
-          <td class="text-left">{{raceattributes.special}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Save Bonuses</td>
-          <td class="text-left">{{raceattributes.save}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Languages</td>
-          <td class="text-left">{{raceattributes.lang}}</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold text-right">Description</td>
-          <td class="text-left">{{raceattributes.desc}}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div v-if="character.race != ''">
-      <h3>Choose a class</h3>
-        <b-form-group>
-      <b-form-radio-group
-        id="btn-radios-2"
-        buttons
-        name="radio-btn-outline"
-        button-variant="outline-primary"
-        size="lg"
-      >
-        <b-button v-on:click="changeRace(races.human)">FIGHTER</b-button>
-        <b-button v-on:click="changeRace(races.elf)">CLERIC</b-button>
-        <b-button v-if="character.race != races.dwarf && character.race != races.halfling" v-on:click="changeRace(races.dwarf)">MAGIC-USER</b-button>
-        <b-button v-on:click="changeRace(races.halfling)">THIEF</b-button>
-        <b-button v-if="character.race == races.elf" v-on:click="changeRace(races.halfling)">FIGHTER/MAGE</b-button>
-        <b-button v-if="character.race == races.elf" v-on:click="changeRace(races.halfling)">MAGE/THIEF</b-button>
-      </b-form-radio-group>
-    </b-form-group>
+      <table class="table table-striped" v-if="character.race != ''">
+        <tbody>
+          <tr>
+            <td class="font-weight-bold text-right" style="width: 50%">Ability Requirements</td>
+            <td class="text-left" role="cell">{{raceattributes.ar}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Classes</td>
+            <td class="text-left">{{raceattributes.class}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Hit Die</td>
+            <td class="text-left">{{raceattributes.hd}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Weapons</td>
+            <td class="text-left">{{raceattributes.weapons}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Special</td>
+            <td class="text-left">{{raceattributes.special}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Save Bonuses</td>
+            <td class="text-left">{{raceattributes.save}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Languages</td>
+            <td class="text-left">{{raceattributes.lang}}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold text-right">Description</td>
+            <td class="text-left">{{raceattributes.desc}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div
-      id="floatingChoices"
-      class="fixed-top"
-    >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}}</div>
+      class="border border-secondary rounded onepercent"
+      v-if="currentsection == sections.ABILITIES"
+    >
+      <h3>Choose Your Abilities</h3>
+      <span>
+        You can roll these with 3 6 sided dice. I like to give the playuers the option of a Standard Array ( 15, 14, 13, 10, 8). I also add this rule with this standard array.
+        You can add +1 to any score if you take a -2 to other scores and IF you are going to an 18 it will cost you -3 points.
+      </span>
+      <b-container fluid class="onepercent">
+        <b-row class="my-1">
+          <b-col sm="2">
+            <label for="input-large">Strength:</label>
+          </b-col>
+          <b-col sm="10">
+            <b-form-input id="input-large" size="lg" placeholder="Strength" type="number" min="3" max="18"></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="my-1">
+          <b-col sm="2">
+            <label for="input-large">Intelligence:</label>
+          </b-col>
+          <b-col sm="10">
+            <b-form-input id="input-large" size="lg" placeholder="Intelligence"></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="my-1">
+          <b-col sm="2">
+            <label for="input-large">Wisdom:</label>
+          </b-col>
+          <b-col sm="10">
+            <b-form-input id="input-large" size="lg" placeholder="Wisdom"></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="my-1">
+          <b-col sm="2">
+            <label for="input-large">Constitution:</label>
+          </b-col>
+          <b-col sm="10">
+            <b-form-input id="input-large" size="lg" placeholder="Constitution"></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="my-1">
+          <b-col sm="2">
+            <label for="input-large">Charisma:</label>
+          </b-col>
+          <b-col sm="10">
+            <b-form-input id="input-large" size="lg" placeholder="Charisma"></b-form-input>
+          </b-col>
+        </b-row>
+      </b-container>
+      <span></span>
+    </div>
+
+    <div v-show="false">
+      <h3>Choose a class</h3>
+      <b-form-group>
+        <b-form-radio-group
+          id="btn-radios-2"
+          buttons
+          name="radio-btn-outline"
+          button-variant="outline-primary"
+          size="lg"
+        >
+          <b-button v-on:click="setClass(classes.FIGHTER)">FIGHTER</b-button>
+          <b-button v-on:click="setClass(classes.CLERIC)">CLERIC</b-button>
+          <b-button
+            v-if="character.race != races.DWARF && character.race != races.HALFLING"
+            v-on:click="setClass(classes.MAGICUSER)"
+          >MAGIC-USER</b-button>
+          <b-button v-on:click="setClass(classes.THIEF)">THIEF</b-button>
+          <b-button
+            v-if="character.race == races.ELF"
+            v-on:click="setClass(classes.halfling)"
+          >FIGHTER/MAGE</b-button>
+          <b-button
+            v-if="character.race == races.ELF"
+            v-on:click="setClass(classes.halfling)"
+          >MAGE/THIEF</b-button>
+        </b-form-radio-group>
+      </b-form-group>
+    </div>
+
+    <b-container fluid class="onepercent" v-if="character.race != ''">
+      <b-row>
+        <b-col>
+          <b-button
+            variant="primary"
+            size="lg"
+            v-if="currentsection != sections.RACE"
+            v-on:click="changeSection('prev')"
+          >PREV</b-button>
+        </b-col>
+        <b-col>
+          <b-button
+            variant="primary"
+            size="lg"
+            v-if="currentsection != sections.CLASS"
+            v-on:click="changeSection('next')"
+          >NEXT</b-button>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -155,13 +172,6 @@ export default {
   name: "app",
   data() {
     return {
-      races: {
-        none: "",
-        human: "human",
-        elf: "elf",
-        dwarf: "dwarf",
-        halfling: "halfling"
-      },
       character: {
         race: "",
         class: "",
@@ -182,15 +192,35 @@ export default {
         save: "",
         lang: "",
         desc: ""
+      },
+      currentsection: "race",
+      races: {
+        none: "",
+        HUMAN: "human",
+        ELF: "elf",
+        DWARF: "dwarf",
+        HALFLING: "halfling"
+      },
+      classes: {
+        NONE: "",
+        FIGHTER: "Fighter",
+        CLERIC: "Cleric",
+        MAGICUSER: "Magic-User",
+        THIEF: "Thief"
+      },
+      sections: {
+        RACE: "race",
+        ABILITIES: "abilities",
+        CLASS: "class"
       }
     };
   },
   methods: {
-    changeRace: function(race) {
+    setRace: function(race) {
       this.character.race = race;
 
       switch (race) {
-        case "human":
+        case this.races.HUMAN:
           this.raceattributes.ar = "None";
           this.raceattributes.class = "Any";
           this.raceattributes.hd = "Any-based on class";
@@ -201,7 +231,7 @@ export default {
           this.raceattributes.desc =
             "Average male is typically 6' tall, 175 lbs., and lives about 75 years";
           break;
-        case "elf":
+        case this.races.ELF:
           this.raceattributes.ar = "INT 9 or higher, CON 17 or lower";
           this.raceattributes.class =
             "Any single as well as Fighter/Magic-User and Magic-User/Thief";
@@ -215,7 +245,7 @@ export default {
           this.raceattributes.desc =
             "Typically about 5' tall, slender, 130 lbs, lives about 1200 years or more";
           break;
-        case "dwarf":
+        case this.races.DWARF:
           this.raceattributes.ar = "CON 9 or higher, CHA 17 or lower";
           this.raceattributes.class = "Cleric, Fighter, Thief";
           this.raceattributes.hd = "Any";
@@ -229,7 +259,7 @@ export default {
           this.raceattributes.desc =
             "Typically about 4' tall, stocky, lifespan of 300-400 years.  Thick hair and beards";
           break;
-        case "halfling":
+        case this.races.HALFLING:
           this.raceattributes.ar = "DEX 8 or higher, STR 17 or lower";
           this.raceattributes.class = "leric, Fighter, Thief";
           this.raceattributes.hd = "d6 max";
@@ -243,6 +273,24 @@ export default {
           this.raceattributes.desc =
             "Typically 3ft tall, 60lbs, curly hair and no facial hair, lifespan about 100 years";
           break;
+      }
+    },
+    setClass: function(classname) {
+      this.character.class = classname;
+    },
+    changeSection: function(prevOrNext) {
+      if (prevOrNext == "next") {
+        switch (this.currentsection) {
+          case this.sections.RACE:
+            this.currentsection = this.sections.ABILITIES;
+            break;
+        }
+      } else {
+        switch (this.currentsection) {
+          case this.sections.ABILITIES:
+            this.currentsection = this.sections.RACE;
+            break;
+        }
       }
     }
   }
@@ -284,5 +332,14 @@ li {
 
 a {
   color: #42b983;
+}
+
+.onepercent {
+  margin: 1%;
+}
+
+.floatingheader {
+  padding: 1%;
+  background-color: white;
 }
 </style>
