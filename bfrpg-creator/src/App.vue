@@ -65,50 +65,153 @@
       class="border border-secondary rounded onepercent"
       v-if="currentsection == sections.ABILITIES"
     >
-      <h3>Choose Your Abilities</h3>
+      <h3>Set Ability Scores</h3>
       <span>
-        You can roll these with 3 6 sided dice. I like to give the playuers the option of a Standard Array ( 15, 14, 13, 10, 8). I also add this rule with this standard array.
-        You can add +1 to any score if you take a -2 to other scores and IF you are going to an 18 it will cost you -3 points.
+        Roll 3 D6 for each ability OR use the option of a Standard Array ( 15, 14, 13, 10, 8).
+        <br />*You can add +1 to any score if you take a -2 from other scores, going to 18 will cost you -3 points.
       </span>
-      <b-container fluid class="onepercent">
+      <b-container fluid>
         <b-row class="my-1">
-          <b-col sm="2">
-            <label for="input-large">Strength:</label>
-          </b-col>
-          <b-col sm="10">
-            <b-form-input id="input-large" size="lg" placeholder="Strength" type="number" min="3" max="18"></b-form-input>
-          </b-col>
-        </b-row>
-        <b-row class="my-1">
-          <b-col sm="2">
-            <label for="input-large">Intelligence:</label>
-          </b-col>
-          <b-col sm="10">
-            <b-form-input id="input-large" size="lg" placeholder="Intelligence"></b-form-input>
-          </b-col>
-        </b-row>
-        <b-row class="my-1">
-          <b-col sm="2">
-            <label for="input-large">Wisdom:</label>
-          </b-col>
-          <b-col sm="10">
-            <b-form-input id="input-large" size="lg" placeholder="Wisdom"></b-form-input>
-          </b-col>
-        </b-row>
-        <b-row class="my-1">
-          <b-col sm="2">
-            <label for="input-large">Constitution:</label>
-          </b-col>
-          <b-col sm="10">
-            <b-form-input id="input-large" size="lg" placeholder="Constitution"></b-form-input>
-          </b-col>
-        </b-row>
-        <b-row class="my-1">
-          <b-col sm="2">
-            <label for="input-large">Charisma:</label>
-          </b-col>
-          <b-col sm="10">
-            <b-form-input id="input-large" size="lg" placeholder="Charisma"></b-form-input>
+          <b-col>
+            <b-container fluid class="onepercent" id="diceRoller">
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <b-button
+                    variant="primary"
+                    v-if="currentsection != sections.CLASS"
+                    v-on:click="rollForAbility()"
+                  >ROLL DICE</b-button>
+                </b-col>
+                <b-col>
+                  <span>{{randomroll.one}}</span>
+                </b-col>
+                <b-col>
+                  <span>{{randomroll.two}}</span>
+                </b-col>
+                <b-col>
+                  <span>{{randomroll.three}}</span>
+                </b-col>
+                <b-col>
+                  <span>{{randomroll.total}}</span>
+                </b-col>
+              </b-row>
+            </b-container>
+            <b-container fluid class="onepercent">
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-large">Strength:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    id="abilityInputStrength"
+                    size="lg"
+                    placeholder="raw physical power"
+                    v-model.number="character.abilities.strength"
+                    @blur.native="checkAbilityScore(abilities.STRENGTH)"
+                    :state="abilityerrors.strengtherror == '' ? (character.abilities.strength == '' ? null : true) : false"
+                    type="number"
+                    min="3"
+                    max="18"
+                  ></b-form-input>
+                  <span>{{abilityerrors.strengtherror}}</span>
+                </b-col>
+              </b-row>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-large">Dexterity:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    id="abilityInputDexterity"
+                    size="lg"
+                    placeholder="quickness, balance, aptitude with tools"
+                    v-model.number="character.abilities.dexterity"
+                    @blur.native="checkAbilityScore(abilities.DEXTERITY)"
+                    :state="abilityerrors.dexterityerror == '' ? (character.abilities.dexterity == '' ? null : true) : false"
+                    type="number"
+                    min="3"
+                    max="18"
+                  ></b-form-input>
+                  <span>{{abilityerrors.dexterityerror}}</span>
+                </b-col>
+              </b-row>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-large">Intelligence:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    id="abilityInputIntelligence"
+                    size="lg"
+                    placeholder="ability to learn and apply knowledge"
+                    v-model.number="character.abilities.intelligence"
+                    @blur.native="checkAbilityScore(abilities.INTELLIGENCE)"
+                    :state="abilityerrors.intelligenceerror == '' ? (character.abilities.intelligence == '' ? null : true) : false"
+                    type="number"
+                    min="3"
+                    max="18"
+                  ></b-form-input>
+                  <span>{{abilityerrors.intelligenceerror}}</span>
+                </b-col>
+              </b-row>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-large">Wisdom:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    id="abilityInputWisdom"
+                    size="lg"
+                    placeholder="intuition, willpower, common sense"
+                    v-model.number="character.abilities.wisdom"
+                    @blur.native="checkAbilityScore(abilities.WISDOM)"
+                    :state="abilityerrors.wisdomerror == '' ? (character.abilities.wisdom == '' ? null : true) : false"
+                    type="number"
+                    min="3"
+                    max="18"
+                  ></b-form-input>
+                  <span>{{abilityerrors.wisdomerror}}</span>
+                </b-col>
+              </b-row>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-large">Constitution:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    id="abilityInputConstitution"
+                    size="lg"
+                    placeholder="general health and vitality"
+                    v-model.number="character.abilities.constitution"
+                    @blur.native="checkAbilityScore(abilities.CONSTITUTION)"
+                    :state="abilityerrors.constitutionerror == '' ? (character.abilities.constitution == '' ? null : true) : false"
+                    type="number"
+                    min="3"
+                    max="18"
+                  ></b-form-input>
+                  <span>{{abilityerrors.constitutionerror}}</span>
+                </b-col>
+              </b-row>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-large">Charisma:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    id="abilityInputCharisma"
+                    size="lg"
+                    placeholder=" ability to influence, lead people"
+                    v-model.number="character.abilities.charisma"
+                    @blur.native="checkAbilityScore(abilities.CHARISMA)"
+                    :state="abilityerrors.charismaerror == '' ? (character.abilities.charisma == '' ? null : true) : false"
+                    type="number"
+                    min="3"
+                    max="18"
+                  ></b-form-input>
+                  <span>{{abilityerrors.charismaerror}}</span>
+                </b-col>
+              </b-row>
+            </b-container>
           </b-col>
         </b-row>
       </b-container>
@@ -179,6 +282,14 @@ export default {
         level: 1,
         attackbonus: "",
         hitDice: 4,
+        abilities: {
+          strength: "",
+          dexterity: "",
+          intelligence: "",
+          wisdom: "",
+          constitution: "",
+          charisma: ""
+        },
         saves: {
           deathray: ""
         }
@@ -208,10 +319,32 @@ export default {
         MAGICUSER: "Magic-User",
         THIEF: "Thief"
       },
+      abilities: {
+        STRENGTH: "strength",
+        INTELLIGENCE: "intelligence",
+        WISDOM: "wisdom",
+        DEXTERITY: "dexterity",
+        CONSTITUTION: "constitution",
+        CHARISMA: "charisma"
+      },
       sections: {
         RACE: "race",
         ABILITIES: "abilities",
         CLASS: "class"
+      },
+      randomroll: {
+        one: 0,
+        two: 0,
+        three: 0,
+        total: 0
+      },
+      abilityerrors: {
+        strengtherror: "",
+        dexterityerror: "",
+        constitutionerror: "",
+        charismaerror: "",
+        intelligenceerror: "",
+        wisdomerror: ""
       }
     };
   },
@@ -261,7 +394,7 @@ export default {
           break;
         case this.races.HALFLING:
           this.raceattributes.ar = "DEX 8 or higher, STR 17 or lower";
-          this.raceattributes.class = "leric, Fighter, Thief";
+          this.raceattributes.class = "Cleric, Fighter, Thief";
           this.raceattributes.hd = "d6 max";
           this.raceattributes.weapons =
             "Must use medium weapons in two hands, cannot use large weapons";
@@ -274,6 +407,20 @@ export default {
             "Typically 3ft tall, 60lbs, curly hair and no facial hair, lifespan about 100 years";
           break;
       }
+      //Reset everything else
+      this.character.abilities.strength = "";
+      this.character.abilities.dexterity = "";
+      this.character.abilities.intelligence = "";
+      this.character.abilities.wisdom = "";
+      this.character.abilities.constitution = "";
+      this.character.abilities.charisma = "";
+      this.abilityerrors.strengtherror = "";
+      this.abilityerrors.dexterityerror = "";
+      this.abilityerrors.intelligenceerror = "";
+      this.abilityerrors.wisdomerror = "";
+      this.abilityerrors.constitutionerror = "";
+      this.abilityerrors.charismaerror = "";
+      this.character.class = "";
     },
     setClass: function(classname) {
       this.character.class = classname;
@@ -291,6 +438,125 @@ export default {
             this.currentsection = this.sections.RACE;
             break;
         }
+      }
+    },
+    rollForAbility: function() {
+      this.randomroll.one = Math.floor(Math.random() * 6 + 1);
+      this.randomroll.two = Math.floor(Math.random() * 6 + 1);
+      this.randomroll.three = Math.floor(Math.random() * 6 + 1);
+      this.randomroll.total =
+        this.randomroll.one + this.randomroll.two + this.randomroll.three;
+    },
+    checkAbilityScore: function(ability) {
+      switch (ability) {
+        case this.abilities.STRENGTH:
+          var str = this.character.abilities.strength;
+          if (str == "") {
+            this.abilityerrors.strengtherror = "";
+            return;
+          } else if (str >= 18) {
+            this.character.abilities.strength = 18;
+            if (this.character.race == this.races.HALFLING) {
+              this.abilityerrors.strengtherror =
+                "Halflings cannot have 18 strength.";
+              return;
+            }
+          } else if (str < 3) {
+            this.character.abilities.strength = 3;
+          }
+          this.abilityerrors.strengtherror = "";
+          break;
+        case this.abilities.INTELLIGENCE:
+          var int = this.character.abilities.intelligence;
+          if (int == "") {
+            this.abilityerrors.intelligenceerror = "";
+            return;
+          } else if (int >= 18) {
+            this.character.abilities.intelligence = 18;
+          } else if (int < 9) {
+            if (int < 3) {
+              this.character.abilities.intelligence = 3;
+            }
+            if (this.character.race == this.races.ELF) {
+              this.abilityerrors.intelligenceerror =
+                "Elves cannot have Intelligence less than 9";
+              return;
+            }
+          }
+          this.abilityerrors.intelligenceerror = "";
+          break;
+        case this.abilities.WISDOM:
+          var wis = this.character.abilities.wisdom;
+          if (wis == "") {
+            this.abilityerrors.wisdomerror = "";
+            return;
+          } else if (wis >= 18) {
+            this.character.abilities.wisdom = 18;
+          } else if (wis < 3) {
+            this.character.abilities.wisdom = 3;
+          }
+          this.abilityerrors.wisdomerror = "";
+          break;
+        case this.abilities.DEXTERITY:
+          var dex = this.character.abilities.dexterity;
+          if (dex == "") {
+            this.abilityerrors.dexterityerror = "";
+            return;
+          } else if (dex >= 18) {
+            this.character.abilities.dexterity = 18;
+          } else if (dex < 8) {
+            if (dex < 3) {
+              this.character.abilities.dexterity = 3;
+            }
+            if (this.character.race == this.races.HALFLING) {
+              this.abilityerrors.dexterityerror =
+                "Halflings cannot have a dexterity below 8.";
+              return;
+            }
+          }
+          this.abilityerrors.dexterityerror = "";
+          break;
+        case this.abilities.CONSTITUTION:
+          var con = this.character.abilities.constitution;
+          if (con == "") {
+            this.abilityerrors.constitutionerror = "";
+            return;
+          } else if (con >= 18) {
+            this.character.abilities.constitution = 18;
+            if (this.character.race == this.races.ELF) {
+              this.abilityerrors.constitutionerror =
+                "Elves cannot have a constitution higher than 17.";
+              return;
+            }
+          } else if (con < 9) {
+            if (con < 3) {
+              this.character.abilities.constitution = 3;
+            }
+            if (this.character.race == this.races.DWARF) {
+              this.abilityerrors.constitutionerror =
+                "Dwarves cannot have a constitution below 9.";
+              return;
+            }
+          }
+          this.abilityerrors.constitutionerror = "";
+          break;
+        case this.abilities.CHARISMA:
+          var cha = this.character.abilities.charisma;
+          if (cha == "") {
+            this.abilityerrors.constitutionerror = "";
+            return;
+          } else if (cha >= 18) {
+            this.character.abilities.charisma = 18;
+            if (this.character.race == this.races.DWARF) {
+              this.abilityerrors.charismaerror =
+                "Dwarves cannot have a charisma higher than 17.";
+              return;
+            }
+          } else if (cha < 3) {
+            this.character.abilities.constitution = 3;
+          }
+          this.abilityerrors.constitutionerror = "";
+          break;
       }
     }
   }
