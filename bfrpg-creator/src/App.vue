@@ -1,29 +1,37 @@
 <template>
   <div id="app">
-    <div
+    <!--     <div
       id="floatingChoices"
-      class="fixed-top border border-secondary rounded floatingheader"
-    >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}}</div>
+      class=" border border-secondary rounded floatingheader"
+    >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}} | {{currentsection}}</div>-->
+    <div>
+      <b-button v-b-toggle.collapse-1 variant="primary" class="fixed-top right">Character Sheet</b-button>
+      <b-collapse id="collapse-1" class="mt-2">
+        <b-card class="border border-secondary rounded floatingheader onepercent">
+          <p
+            class="card-text"
+          >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}} | {{currentsection}}</p>
+        </b-card>
+      </b-collapse>
+    </div>
     <h1>Basic Fantasy RPG Character Creator</h1>
 
     <div class="border border-secondary rounded onepercent" v-if="currentsection == sections.RACE">
       <h3>Choose Your Race</h3>
       <b-form-group>
         <b-form-radio-group
-          id="btn-radios-2"
+          id="radioGroupRaces"
+          name="radioRaces"
           buttons
-          name="radio-btn-outline"
-          button-variant="outline-primary"
+          :options="raceOptions"
           size="lg"
-        >
-          <b-button v-on:click="setRace(races.HUMAN)">HUMAN</b-button>
-          <b-button v-on:click="setRace(races.ELF)">ELF</b-button>
-          <b-button v-on:click="setRace(races.DWARF)">DWARF</b-button>
-          <b-button v-on:click="setRace(races.HALFLING)">HALFLING</b-button>
-        </b-form-radio-group>
+          button-variant="outline-primary"
+          v-model="character.race"
+          v-on:input="setRace()"
+        ></b-form-radio-group>
       </b-form-group>
 
-      <table class="table table-striped" v-if="character.race != ''">
+      <table class="table table-striped" v-if="character.race !=''">
         <tbody>
           <tr>
             <td class="font-weight-bold text-right" style="width: 50%">Ability Requirements</td>
@@ -218,33 +226,43 @@
       <span></span>
     </div>
 
-    <div v-show="false">
-      <h3>Choose a class</h3>
-      <b-form-group>
-        <b-form-radio-group
-          id="btn-radios-2"
-          buttons
-          name="radio-btn-outline"
-          button-variant="outline-primary"
-          size="lg"
-        >
-          <b-button v-on:click="setClass(classes.FIGHTER)">FIGHTER</b-button>
-          <b-button v-on:click="setClass(classes.CLERIC)">CLERIC</b-button>
-          <b-button
-            v-if="character.race != races.DWARF && character.race != races.HALFLING"
-            v-on:click="setClass(classes.MAGICUSER)"
-          >MAGIC-USER</b-button>
-          <b-button v-on:click="setClass(classes.THIEF)">THIEF</b-button>
-          <b-button
-            v-if="character.race == races.ELF"
-            v-on:click="setClass(classes.halfling)"
-          >FIGHTER/MAGE</b-button>
-          <b-button
-            v-if="character.race == races.ELF"
-            v-on:click="setClass(classes.halfling)"
-          >MAGE/THIEF</b-button>
-        </b-form-radio-group>
-      </b-form-group>
+    <div v-if="currentsection == sections.CLASS" class="border border-secondary rounded onepercent">
+      <h3>Choose your class</h3>
+      <b-container fluid>
+        <b-row class="my-1">
+          <b-col>
+            <b-form-group>
+              <b-form-radio-group
+                id="radioClasses"
+                buttons
+                name="radioClasses"
+                button-variant="outline-primary"
+                size="lg"
+              >
+                <b-button v-on:click="setClass(classes.FIGHTER)">FIGHTER</b-button>
+                <b-button v-on:click="setClass(classes.CLERIC)">CLERIC</b-button>
+                <b-button
+                  :disabled="character.race == races.DWARF || character.race == races.HALFLING"
+                  hov
+                  v-on:click="setClass(classes.MAGICUSER)"
+                >MAGIC-USER</b-button>
+                <b-button v-on:click="setClass(classes.THIEF)">THIEF</b-button>
+                <b-button
+                  :disabled="character.race != races.ELF"
+                  v-on:click="setClass(classes.halfling)"
+                >FIGHTER/MAGE</b-button>
+                <b-button
+                  :disabled="character.race != races.ELF"
+                  v-on:click="setClass(classes.halfling)"
+                >MAGE/THIEF</b-button>
+              </b-form-radio-group>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row class="my-1">
+          <b-col><h5>Some classes may be unavailable due to race or ability scores</h5></b-col>
+        </b-row>
+      </b-container>
     </div>
 
     <b-container fluid class="onepercent" v-if="character.race != ''">
@@ -304,6 +322,12 @@ export default {
         lang: "",
         desc: ""
       },
+      raceOptions: [
+        { text: "Human", value: "human" },
+        { text: "Elf", value: "elf" },
+        { text: "Dwarf", value: "dwarf" },
+        { text: "Halfling", value: "halfling" }
+      ],
       currentsection: "race",
       races: {
         none: "",
@@ -349,10 +373,8 @@ export default {
     };
   },
   methods: {
-    setRace: function(race) {
-      this.character.race = race;
-
-      switch (race) {
+    setRace: function() {
+      switch (this.character.race) {
         case this.races.HUMAN:
           this.raceattributes.ar = "None";
           this.raceattributes.class = "Any";
@@ -431,11 +453,16 @@ export default {
           case this.sections.RACE:
             this.currentsection = this.sections.ABILITIES;
             break;
+          case this.sections.ABILITIES:
+            this.currentsection = this.sections.CLASS;
         }
       } else {
         switch (this.currentsection) {
           case this.sections.ABILITIES:
             this.currentsection = this.sections.RACE;
+            break;
+          case this.sections.CLASS:
+            this.currentsection = this.sections.ABILITIES;
             break;
         }
       }
