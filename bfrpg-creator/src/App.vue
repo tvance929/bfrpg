@@ -1,16 +1,114 @@
 <template>
   <div id="app">
-    <!--     <div
-      id="floatingChoices"
-      class=" border border-secondary rounded floatingheader"
-    >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}} | {{currentsection}}</div>-->
     <div>
       <b-button v-b-toggle.collapse-1 variant="primary" class="fixed-top right">Character Sheet</b-button>
       <b-collapse id="collapse-1" class="mt-2">
-        <b-card class="border border-secondary rounded floatingheader onepercent">
-          <p
-            class="card-text"
-          >RACE : {{character.race}} | CLASS : {{character.class}} | LEVEL : {{character.level}} | {{currentsection}}</p>
+        <b-card
+          class="border border-secondary rounded floatingheader onepercent text-left charSheet"
+        >
+          <b-container fluid style="charSheet">
+            <b-row class="my-1 pb-4">
+              <b-col>
+                <span class="font-weight-bolder">NAME:</span>
+                <span
+                  class="text-capitalize sheetField editable"
+                  contenteditable="true"
+                >{{character.name}}</span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">PLAYER:</span>
+                <span
+                  class="text-capitalize sheetField editable"
+                  contenteditable="true"
+                >{{character.player}}</span>
+              </b-col>
+            </b-row>
+            <b-row class="my-1 pb-4">
+              <b-col>
+                <span class="font-weight-bolder">RACE:</span>
+                <span class="text-capitalize sheetField">{{character.race}}</span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">CLASS:</span>
+                <span class="text-capitalize sheetField">{{character.class}}</span>
+              </b-col>
+            </b-row>
+            <b-row class="my-1 pb-4">
+              <b-col>
+                <span class="font-weight-bolder">LEVEL:</span>
+                <span class="text-capitalize sheetSmallField">{{character.level}}</span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">XP:</span>
+                <span class="text-capitalize sheetSmallField">{{character.xp}}</span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">SEX:</span>
+                <span class="text-capitalize sheetField">
+                  <b-form-select v-model="character.sex">
+                    <option value="Male" selected="true">Male</option>
+                    <option value="Female">Female</option>
+                  </b-form-select>
+                </span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">AGE:</span>
+                <span
+                  class="text-capitalize sheetSmallField editable"
+                  contenteditable="true"
+                >{{character.age}}</span>
+              </b-col>
+            </b-row>
+            <b-row class="my-1 pb-4">
+              <b-col>
+                <span class="font-weight-bolder abilityName">STR:</span>
+                <span
+                  class="text-capitalize sheetSmallField"
+                >{{character.abilities.strength}} {{character.abilities.strength != "" ? abilityBonus(character.abilities.strength) : ""}}</span>
+                <br />
+                <span class="font-weight-bolder abilityName">INT:</span>
+                <span
+                  class="text-capitalize sheetSmallField"
+                >{{character.abilities.intelligence}} {{character.abilities.intelligence != "" ? abilityBonus(character.abilities.intelligence) : ""}}</span>
+                <br />
+                <span class="font-weight-bolder abilityName">WIS:</span>
+                <span
+                  class="text-capitalize sheetSmallField"
+                >{{character.abilities.wisdom}} {{character.abilities.wisdom != "" ? abilityBonus(character.abilities.wisdom) : ""}}</span>
+                <br />
+                <span class="font-weight-bolder abilityName">DEX:</span>
+                <span
+                  class="text-capitalize sheetSmallField"
+                >{{character.abilities.dexterity}} {{character.abilities.dexterity != "" ? abilityBonus(character.abilities.dexterity) : ""}}</span>
+                <br />
+                <span class="font-weight-bolder abilityName">CON:</span>
+                <span
+                  class="text-capitalize sheetSmallField"
+                >{{character.abilities.constitution}} {{character.abilities.constitution != "" ? abilityBonus(character.abilities.constitution) : ""}}</span>
+                <br />
+                <span class="font-weight-bolder abilityName">CHA:</span>
+                <span
+                  class="text-capitalize sheetSmallField"
+                >{{character.abilities.charisma}} {{character.abilities.charisma != "" ? abilityBonus(character.abilities.charisma) : ""}}</span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">AC:</span>
+                <span class="text-capitalize sheetField">{{character.ac}}</span>
+                <br />
+                <span class="font-weight-bolder abilityName">CHARISMA:</span>
+                <span class="text-capitalize sheetSmallField">{{character.abilities.charisma}}</span>
+              </b-col>
+
+              <b-col>
+                <span class="font-weight-bolder">LEVEL:</span>
+                <span class="text-capitalize sheetField">{{character.level}}</span>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">XP:</span>
+                <span class="text-capitalize sheetField">{{character.xp}}</span>
+              </b-col>
+            </b-row>
+          </b-container>
         </b-card>
       </b-collapse>
     </div>
@@ -223,44 +321,94 @@
           </b-col>
         </b-row>
       </b-container>
+      {{errorTest}}
       <span></span>
     </div>
 
-    <div v-if="currentsection == sections.CLASS" class="border border-secondary rounded onepercent">
-      <h3>Choose your class</h3>
+    <div v-if="currentsection==sections.CLASS" class="border border-secondary rounded onepercent">
+      <h3>The classes</h3>
       <b-container fluid>
         <b-row class="my-1">
           <b-col>
-            <b-form-group>
-              <b-form-radio-group
-                id="radioClasses"
-                buttons
-                name="radioClasses"
-                button-variant="outline-primary"
-                size="lg"
-              >
-                <b-button v-on:click="setClass(classes.FIGHTER)">FIGHTER</b-button>
-                <b-button v-on:click="setClass(classes.CLERIC)">CLERIC</b-button>
-                <b-button
-                  :disabled="character.race == races.DWARF || character.race == races.HALFLING"
-                  hov
-                  v-on:click="setClass(classes.MAGICUSER)"
-                >MAGIC-USER</b-button>
-                <b-button v-on:click="setClass(classes.THIEF)">THIEF</b-button>
-                <b-button
-                  :disabled="character.race != races.ELF"
-                  v-on:click="setClass(classes.halfling)"
-                >FIGHTER/MAGE</b-button>
-                <b-button
-                  :disabled="character.race != races.ELF"
-                  v-on:click="setClass(classes.halfling)"
-                >MAGE/THIEF</b-button>
-              </b-form-radio-group>
-            </b-form-group>
+            <b-button
+              v-on:click="setClass(classes.FIGHTER)"
+              size="lg"
+              v-bind:variant="classQualify(classes.FIGHTER) ? 'success' : ''"
+            >FIGHTER</b-button>
+            <b-button
+              v-on:click="setClass(classes.CLERIC)"
+              size="lg"
+              v-bind:variant="classQualify(classes.CLERIC) ? 'success' : ''"
+            >CLERIC</b-button>
+            <b-button
+              size="lg"
+              v-bind:variant="classQualify(classes.MAGICUSER) ? 'success' : ''"
+              v-on:click="setClass(classes.MAGICUSER)"
+            >MAGIC-USER</b-button>
+            <b-button
+              v-on:click="setClass(classes.THIEF)"
+              size="lg"
+              v-bind:variant="classQualify(classes.THIEF) ? 'success' : ''"
+            >THIEF</b-button>
+            <b-button
+              size="lg"
+              v-bind:variant="classQualify(classes.MAGICUSER_FIGHTER) ? 'success' : ''"
+              v-on:click="setClass(classes.halfling)"
+            >MAGE-FIGHTER</b-button>
+            <b-button
+              size="lg"
+              v-bind:variant="classQualify(classes.MAGICUSER_THIEF) ? 'success' : ''"
+              v-on:click="setClass(classes.halfling)"
+            >MAGE-THIEF</b-button>
           </b-col>
         </b-row>
         <b-row class="my-1">
-          <b-col><h5>Some classes may be unavailable due to race or ability scores</h5></b-col>
+          <b-col>
+            <h5>Some classes may be unavailable due to race or ability scores</h5>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <table class="table table-striped" v-if="character.race !=''">
+              <tbody>
+                <tr>
+                  <td colspan="2">{{classDescription}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right" style="width: 50%">Ability Requirements</td>
+                  <td class="text-left" role="cell">{{raceattributes.ar}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Classes</td>
+                  <td class="text-left">{{raceattributes.class}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Hit Die</td>
+                  <td class="text-left">{{raceattributes.hd}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Weapons</td>
+                  <td class="text-left">{{raceattributes.weapons}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Special</td>
+                  <td class="text-left">{{raceattributes.special}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Save Bonuses</td>
+                  <td class="text-left">{{raceattributes.save}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Languages</td>
+                  <td class="text-left">{{raceattributes.lang}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Description</td>
+                  <td class="text-left">{{raceattributes.desc}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </b-col>
         </b-row>
       </b-container>
     </div>
@@ -296,10 +444,14 @@ export default {
       character: {
         race: "",
         class: "",
-        name: "",
+        name: "Your Characters Name",
         level: 1,
-        attackbonus: "",
-        hitDice: 4,
+        attackbonus: 1,
+        hitDice: 1,
+        xp: 0,
+        player: "",
+        sex: "Male",
+        age: 25,
         abilities: {
           strength: "",
           dexterity: "",
@@ -341,7 +493,9 @@ export default {
         FIGHTER: "Fighter",
         CLERIC: "Cleric",
         MAGICUSER: "Magic-User",
-        THIEF: "Thief"
+        THIEF: "Thief",
+        MAGICUSER_FIGHTER: "Magic-User/Fighter",
+        MAGICUSER_THIEF: "Magic-User/Thief"
       },
       abilities: {
         STRENGTH: "strength",
@@ -369,7 +523,8 @@ export default {
         charismaerror: "",
         intelligenceerror: "",
         wisdomerror: ""
-      }
+      },
+      errorTest: ""
     };
   },
   methods: {
@@ -454,7 +609,20 @@ export default {
             this.currentsection = this.sections.ABILITIES;
             break;
           case this.sections.ABILITIES:
+            for (var key in this.character.abilities) {
+              if (this.character.abilities[key] == "") {
+                this.errorTest = "All abilities must be set before continuing";
+                return;
+              }
+            }
+            for (var key in this.abilityerrors) {
+              if (this.abilityerrors[key] != "") {
+                this.errorTest = "Please fix ability errors";
+                return;
+              }
+            }
             this.currentsection = this.sections.CLASS;
+            break;
         }
       } else {
         switch (this.currentsection) {
@@ -465,6 +633,11 @@ export default {
             this.currentsection = this.sections.ABILITIES;
             break;
         }
+      }
+    },
+    disableNext() {
+      if (this.currentsection.ABILITIES) {
+        return true;
       }
     },
     rollForAbility: function() {
@@ -585,17 +758,77 @@ export default {
           this.abilityerrors.constitutionerror = "";
           break;
       }
+    },
+    classQualify: function(classes) {
+      switch (classes) {
+        case this.classes.FIGHTER:
+          if (this.character.abilities.strength < 9) {
+            return false;
+          }
+          return true;
+          break;
+        case this.classes.CLERIC:
+          if (this.character.abilities.wisdom < 9) {
+            return false;
+          }
+          return true;
+          break;
+        case this.classes.MAGICUSER:
+          if (
+            this.character.abilities.intelligence < 9 ||
+            this.character.race == this.races.DWARF ||
+            this.character.race == this.races.HALFLING
+          ) {
+            return false;
+          }
+          return true;
+          break;
+        case this.classes.THIEF:
+          if (this.character.abilities.dexterity < 9) {
+            return false;
+          }
+          return true;
+          break;
+        case this.classes.MAGICUSER_FIGHTER:
+          if (
+            this.character.race != this.races.ELF ||
+            (this.character.abilities.strength < 9 ||
+              this.character.abilities.intelligence < 9)
+          ) {
+            return false;
+          }
+          return true;
+          break;
+        case this.classes.MAGICUSER_THIEF:
+          if (
+            this.character.race != this.races.ELF ||
+            (this.character.abilities.dexterity < 9 ||
+              this.character.abilities.intelligence < 9)
+          ) {
+            return false;
+          }
+          return true;
+          break;
+      }
+      return true;
+    },
+    abilityBonus(score) {
+      if (score == 3) {
+        return "(-3)";
+      } else if (score == 4 || score == 5) {
+        return "(-2)";
+      } else if (score >= 6 && score <= 8) {
+        return "(-1)";
+      } else if (score >= 13 && score <= 15) {
+        return "(+1)";
+      } else if (score == 16 || score == 17) {
+        return "(+2)";
+      } else if (score == 18) {
+        return "(+3)";
+      }
     }
   }
 };
-
-const Race = Object.freeze({
-  NONE: "",
-  HUMAN: "human",
-  ELF: "elf",
-  DWARF: "dwarf",
-  HALFLING: "halfling"
-});
 </script>
 
 <style>
@@ -631,8 +864,31 @@ a {
   margin: 1%;
 }
 
-.floatingheader {
-  padding: 1%;
-  background-color: white;
+.sheetField {
+  display: inline-block;
+  border-style: solid;
+  border-width: 0px 0px 2px 0px;
+  width: 70%;
+}
+
+.sheetSmallField {
+  display: inline-block;
+  border-style: solid;
+  border-width: 0px 0px 2px 0px;
+  width: 20%;
+}
+
+.abilityName {
+  display: inline-block;
+  width: 20%;
+  padding-top: 2%;
+}
+
+.editable {
+  background-color: #f2f2f2;
+}
+
+.charSheet {
+  background-color: #fffff8;
 }
 </style>

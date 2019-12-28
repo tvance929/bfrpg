@@ -54,7 +54,7 @@ module.exports = {
     hints: false
   },
   plugins: [new ExtractTextPlugin("main.css")],
-  devtool: '#eval-source-map'
+  devtool: 'source-map'//'#eval-source-map'
 }
 
 if (process.env.NODE_ENV === 'production') {
