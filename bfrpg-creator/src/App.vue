@@ -861,9 +861,9 @@ export default {
               return;
             }
           } else if (cha < 3) {
-            this.character.abilities.constitution = 3;
+            this.character.abilities.charisma = 3;
           }
-          this.abilityerrors.constitutionerror = "";
+          this.abilityerrors.charismaerror = "";
           break;
       }
     },
@@ -1118,10 +1118,10 @@ export default {
         "<html><head><title>" + document.title + "</title>"
       );
       newWindow.document.write(
-        '<link rel="stylesheet" href="/dist/main.css" type="text/css" />'
+        '<link rel="stylesheet" href="dist/main.css" type="text/css" />'
       );
       newWindow.document.write(
-        '<link rel="stylesheet" href="/src/assets/print.css" type="text/css" />'
+        '<link rel="stylesheet" href="src/assets/print.css" type="text/css" />'
       );
       newWindow.document.write("</head><body >");
       newWindow.document.write("<h1>" + document.title + "</h1>");
