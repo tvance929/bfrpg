@@ -5,8 +5,9 @@
       <b-collapse id="collapse-1" class="mt-2">
         <b-card
           class="border border-secondary rounded floatingheader onepercent text-left charSheet"
+          id="characterSheet"
         >
-          <b-container fluid style="charSheet">
+          <b-container fluid>
             <b-row class="my-1 pb-4">
               <b-col>
                 <span class="font-weight-bolder">NAME:</span>
@@ -36,11 +37,11 @@
             <b-row class="my-1 pb-4">
               <b-col>
                 <span class="font-weight-bolder">LEVEL:</span>
-                <span class="text-capitalize sheetSmallField">{{character.level}}</span>
+                <span class="text-capitalize sheetSmallField editable" contenteditable="true"></span>
               </b-col>
               <b-col>
                 <span class="font-weight-bolder">XP:</span>
-                <span class="text-capitalize sheetSmallField">{{character.xp}}</span>
+                <span class="text-capitalize sheetSmallField editable" contenteditable="true"></span>
               </b-col>
               <b-col>
                 <span class="font-weight-bolder">SEX:</span>
@@ -53,10 +54,7 @@
               </b-col>
               <b-col>
                 <span class="font-weight-bolder">AGE:</span>
-                <span
-                  class="text-capitalize sheetSmallField editable"
-                  contenteditable="true"
-                >{{character.age}}</span>
+                <span class="text-capitalize sheetSmallField editable" contenteditable="true"></span>
               </b-col>
             </b-row>
             <b-row class="my-1 pb-4">
@@ -92,20 +90,109 @@
                 >{{character.abilities.charisma}} {{character.abilities.charisma != "" ? abilityBonus(character.abilities.charisma) : ""}}</span>
               </b-col>
               <b-col>
-                <span class="font-weight-bolder">AC:</span>
-                <span class="text-capitalize sheetField">{{character.ac}}</span>
+                <span class="font-weight-bolder abilityName">AC:</span>
+                <span class="text-capitalize sheetSmallField"></span>
                 <br />
-                <span class="font-weight-bolder abilityName">CHARISMA:</span>
-                <span class="text-capitalize sheetSmallField">{{character.abilities.charisma}}</span>
+                <span class="font-weight-bolder abilityName">AB:</span>
+                <span class="text-capitalize sheetSmallField editable" contenteditable="true"></span>
+                <br />
+                <span class="font-weight-bolder abilityName">HP:</span>
+                <span class="text-capitalize sheetSmallField editable" contenteditable="true"></span>
+                <br />
+                <span class="font-weight-bolder abilityName">HD:</span>
+                <span class="text-capitalize sheetSmallField">{{character.hitDice}}</span>
               </b-col>
+              <b-col>
+                <span class="font-weight-bolder">MOVE:</span>
+                <span class="text-capitalize sheetSmallField editable" contenteditable="true"></span>
+                <br />
+                <br />
+                <span class="font-weight-bolder">MONEY:</span>
+                <span>
+                  <br />
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                </span>
+              </b-col>
+            </b-row>
+            <b-row class="my-1 pb-4">
+              <b-col>
+                <span class="font-weight-bolder">SPELLS/ABILITIES:</span>
+                <p class="mb-5">
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                </p>
+                <span class="font-weight-bolder mt-5">EQUIPMENT:</span>
+                <p>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetField editable pb-2" contenteditable="true"></span>
+                </p>
+              </b-col>
+              <b-col>
+                <span class="font-weight-bolder">SAVING THROWS:</span>
+                <p class="ml-4">
+                  <span class="font-weight-bold abilityName">Death Ray/Poison:</span>
+                  <span class="text-capitalize sheetSmallField">{{character.saves.deathray}}</span>
+                  <br />
+                  <span class="font-weight-bolder abilityName">Magic Wands:</span>
+                  <span class="text-capitalize sheetSmallField pb-4">{{character.saves.magicWands}}</span>
+                  <br />
+                  <span class="font-weight-bolder abilityName">Paralysis/Turn to Stone:</span>
+                  <span class="text-capitalize sheetSmallField pb-4">{{character.saves.paralysis}}</span>
+                  <br />
+                  <span class="font-weight-bolder abilityName">Dragon Breath:</span>
+                  <span
+                    class="text-capitalize sheetSmallField pb-4"
+                  >{{character.saves.dragonBreath}}</span>
+                  <br />
+                  <span class="font-weight-bolder abilityName">Spells:</span>
+                  <span class="text-capitalize sheetSmallField pb-4">{{character.saves.spells}}</span>
+                </p>
+                <p class="mt-5">
+                  <span class="font-weight-bold">WEAPON:</span>
 
-              <b-col>
-                <span class="font-weight-bolder">LEVEL:</span>
-                <span class="text-capitalize sheetField">{{character.level}}</span>
+                  <span class="font-weight-bold ml-5">AB:</span>
+
+                  <span class="font-weight-bold ml-5">DAMAGE:</span>
+
+                  <span class="font-weight-bold ml-5">RANGE:</span>
+                  <br />
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                </p>
+                <p></p>
               </b-col>
+            </b-row>
+            <b-row>
               <b-col>
-                <span class="font-weight-bolder">XP:</span>
-                <span class="text-capitalize sheetField">{{character.xp}}</span>
+                <span class="font-weight-bolder">NOTES (kills, events, relationships):</span>
+                <p>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                  <span class="text-capitalize sheetFieldFull editable pb-2" contenteditable="true"></span>
+                </p>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <b-button
+                  variant="primary"
+                  size="lg"
+                  class="printerButton"
+                  v-on:click="printCharacterSheet()"
+                >PRINT SHEET</b-button>
               </b-col>
             </b-row>
           </b-container>
@@ -188,16 +275,16 @@
                     v-on:click="rollForAbility()"
                   >ROLL DICE</b-button>
                 </b-col>
-                <b-col>
+                <b-col class="border dieRoll">
                   <span>{{randomroll.one}}</span>
                 </b-col>
-                <b-col>
+                <b-col class="border dieRoll">
                   <span>{{randomroll.two}}</span>
                 </b-col>
-                <b-col>
+                <b-col class="border dieRoll">
                   <span>{{randomroll.three}}</span>
                 </b-col>
-                <b-col>
+                <b-col class="border dieTotal">
                   <span>{{randomroll.total}}</span>
                 </b-col>
               </b-row>
@@ -211,7 +298,7 @@
                   <b-form-input
                     id="abilityInputStrength"
                     size="lg"
-                    placeholder="raw physical power"
+                    placeholder="+ to attack and damage rolls with melee or thrown weapons"
                     v-model.number="character.abilities.strength"
                     @blur.native="checkAbilityScore(abilities.STRENGTH)"
                     :state="abilityerrors.strengtherror == '' ? (character.abilities.strength == '' ? null : true) : false"
@@ -230,7 +317,7 @@
                   <b-form-input
                     id="abilityInputDexterity"
                     size="lg"
-                    placeholder="quickness, balance, aptitude with tools"
+                    placeholder="+ to range attack rolls, armor class, initiative rolls"
                     v-model.number="character.abilities.dexterity"
                     @blur.native="checkAbilityScore(abilities.DEXTERITY)"
                     :state="abilityerrors.dexterityerror == '' ? (character.abilities.dexterity == '' ? null : true) : false"
@@ -249,7 +336,7 @@
                   <b-form-input
                     id="abilityInputIntelligence"
                     size="lg"
-                    placeholder="ability to learn and apply knowledge"
+                    placeholder="+ languages known, save vs. illusion"
                     v-model.number="character.abilities.intelligence"
                     @blur.native="checkAbilityScore(abilities.INTELLIGENCE)"
                     :state="abilityerrors.intelligenceerror == '' ? (character.abilities.intelligence == '' ? null : true) : false"
@@ -268,7 +355,7 @@
                   <b-form-input
                     id="abilityInputWisdom"
                     size="lg"
-                    placeholder="intuition, willpower, common sense"
+                    placeholder="+ some saving throws vs. magical attacks"
                     v-model.number="character.abilities.wisdom"
                     @blur.native="checkAbilityScore(abilities.WISDOM)"
                     :state="abilityerrors.wisdomerror == '' ? (character.abilities.wisdom == '' ? null : true) : false"
@@ -287,7 +374,7 @@
                   <b-form-input
                     id="abilityInputConstitution"
                     size="lg"
-                    placeholder="general health and vitality"
+                    placeholder="+ to hit points and save vs. poison"
                     v-model.number="character.abilities.constitution"
                     @blur.native="checkAbilityScore(abilities.CONSTITUTION)"
                     :state="abilityerrors.constitutionerror == '' ? (character.abilities.constitution == '' ? null : true) : false"
@@ -306,7 +393,7 @@
                   <b-form-input
                     id="abilityInputCharisma"
                     size="lg"
-                    placeholder=" ability to influence, lead people"
+                    placeholder="+ morale reaction rolls, number of retainers"
                     v-model.number="character.abilities.charisma"
                     @blur.native="checkAbilityScore(abilities.CHARISMA)"
                     :state="abilityerrors.charismaerror == '' ? (character.abilities.charisma == '' ? null : true) : false"
@@ -331,80 +418,83 @@
         <b-row class="my-1">
           <b-col>
             <b-button
-              v-on:click="setClass(classes.FIGHTER)"
+              v-on:click="showClass(classes.FIGHTER)"
               size="lg"
               v-bind:variant="classQualify(classes.FIGHTER) ? 'success' : ''"
             >FIGHTER</b-button>
             <b-button
-              v-on:click="setClass(classes.CLERIC)"
+              v-on:click="showClass(classes.CLERIC)"
               size="lg"
               v-bind:variant="classQualify(classes.CLERIC) ? 'success' : ''"
             >CLERIC</b-button>
             <b-button
               size="lg"
               v-bind:variant="classQualify(classes.MAGICUSER) ? 'success' : ''"
-              v-on:click="setClass(classes.MAGICUSER)"
+              v-on:click="showClass(classes.MAGICUSER)"
             >MAGIC-USER</b-button>
             <b-button
-              v-on:click="setClass(classes.THIEF)"
+              v-on:click="showClass(classes.THIEF)"
               size="lg"
               v-bind:variant="classQualify(classes.THIEF) ? 'success' : ''"
             >THIEF</b-button>
             <b-button
               size="lg"
               v-bind:variant="classQualify(classes.MAGICUSER_FIGHTER) ? 'success' : ''"
-              v-on:click="setClass(classes.halfling)"
+              v-on:click="showClass(classes.MAGICUSER_FIGHTER)"
             >MAGE-FIGHTER</b-button>
             <b-button
               size="lg"
               v-bind:variant="classQualify(classes.MAGICUSER_THIEF) ? 'success' : ''"
-              v-on:click="setClass(classes.halfling)"
+              v-on:click="showClass(classes.MAGICUSER_THIEF)"
             >MAGE-THIEF</b-button>
           </b-col>
         </b-row>
         <b-row class="my-1">
           <b-col>
-            <h5>Some classes may be unavailable due to race or ability scores</h5>
+            <h5>Available classes in green. Others are unavailable due to race or ability scores</h5>
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <table class="table table-striped" v-if="character.race !=''">
+            <table class="table table-striped" hover v-if="clickedClass != ''">
               <tbody>
                 <tr>
-                  <td colspan="2">{{classDescription}}</td>
+                  <td colspan="2" class="font-italic font-weight-bold">
+                    <h3>{{clickedClass}}</h3>
+                    {{classDescription}}
+                  </td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold text-right" style="width: 50%">Ability Requirements</td>
-                  <td class="text-left" role="cell">{{raceattributes.ar}}</td>
+                  <td class="font-weight-bold text-right" style="width: 50%">Prime Requisite</td>
+                  <td class="text-left" role="cell">{{classTable.primeRequisite}}</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold text-right">Classes</td>
-                  <td class="text-left">{{raceattributes.class}}</td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold text-right">Hit Die</td>
-                  <td class="text-left">{{raceattributes.hd}}</td>
+                  <td class="font-weight-bold text-right">Hit Dice</td>
+                  <td class="text-left">{{classTable.hitDice}}</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold text-right">Weapons</td>
-                  <td class="text-left">{{raceattributes.weapons}}</td>
+                  <td class="text-left">{{classTable.weapons}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Armor</td>
+                  <td class="text-left">{{classTable.armor}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">2nd level XP</td>
+                  <td class="text-left">{{classTable.xpForSecond}}</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold text-right">Spells</td>
+                  <td class="text-left">{{classTable.spells}}</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold text-right">Special</td>
-                  <td class="text-left">{{raceattributes.special}}</td>
+                  <td class="text-left">{{classTable.special}}</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold text-right">Save Bonuses</td>
-                  <td class="text-left">{{raceattributes.save}}</td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold text-right">Languages</td>
-                  <td class="text-left">{{raceattributes.lang}}</td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold text-right">Description</td>
-                  <td class="text-left">{{raceattributes.desc}}</td>
+                  <td class="font-weight-bold text-right">1st level saves</td>
+                  <td class="text-left" v-html="classTable.firstLevelSaves"></td>
                 </tr>
               </tbody>
             </table>
@@ -427,8 +517,9 @@
           <b-button
             variant="primary"
             size="lg"
-            v-if="currentsection != sections.CLASS"
             v-on:click="changeSection('next')"
+            :disabled="nextDisabled"
+            v-if="currentsection != sections.FINAL"
           >NEXT</b-button>
         </b-col>
       </b-row>
@@ -444,14 +535,10 @@ export default {
       character: {
         race: "",
         class: "",
-        name: "Your Characters Name",
-        level: 1,
-        attackbonus: 1,
-        hitDice: 1,
-        xp: 0,
+        name: "",
+        hitDice: "",
         player: "",
         sex: "Male",
-        age: 25,
         abilities: {
           strength: "",
           dexterity: "",
@@ -461,7 +548,11 @@ export default {
           charisma: ""
         },
         saves: {
-          deathray: ""
+          deathray: "",
+          magicWands: "",
+          paralysis: "",
+          dragonBreath: "",
+          spells: ""
         }
       },
       raceattributes: {
@@ -508,7 +599,8 @@ export default {
       sections: {
         RACE: "race",
         ABILITIES: "abilities",
-        CLASS: "class"
+        CLASS: "class",
+        FINAL: "final"
       },
       randomroll: {
         one: 0,
@@ -524,7 +616,20 @@ export default {
         intelligenceerror: "",
         wisdomerror: ""
       },
-      errorTest: ""
+      errorTest: "",
+      clickedClass: "",
+      classDescription: "",
+      classTable: {
+        primeRequisite: "",
+        hitDice: "",
+        weapons: "",
+        armor: "",
+        xpForSecond: "",
+        spells: "",
+        special: "",
+        firstLevelSave: ""
+      },
+      nextDisabled: false
     };
   },
   methods: {
@@ -607,6 +712,7 @@ export default {
         switch (this.currentsection) {
           case this.sections.RACE:
             this.currentsection = this.sections.ABILITIES;
+            this.nextDisabled = false;
             break;
           case this.sections.ABILITIES:
             for (var key in this.character.abilities) {
@@ -622,22 +728,24 @@ export default {
               }
             }
             this.currentsection = this.sections.CLASS;
+            this.nextDisabled = true;
             break;
+          case this.sections.CLASS:
+            this.setClassAndSavingThrows();
+            this.currentsection = this.sections.FINAL;
+            return;
         }
       } else {
         switch (this.currentsection) {
           case this.sections.ABILITIES:
             this.currentsection = this.sections.RACE;
+            this.nextDisabled = false;
             break;
           case this.sections.CLASS:
             this.currentsection = this.sections.ABILITIES;
+            this.nextDisabled = false;
             break;
         }
-      }
-    },
-    disableNext() {
-      if (this.currentsection.ABILITIES) {
-        return true;
       }
     },
     rollForAbility: function() {
@@ -826,6 +934,184 @@ export default {
       } else if (score == 18) {
         return "(+3)";
       }
+    },
+    showClass: function(classClicked) {
+      this.clickedClass = classClicked;
+      this.nextDisabled = false;
+      if (!this.classQualify(classClicked)) {
+        this.nextDisabled = true;
+      }
+
+      switch (classClicked) {
+        case this.classes.FIGHTER:
+          this.classDescription =
+            "Fighters include soldiers, guardsmen, barbarian warriors, and anyone else for whom fighting is a way of life. They train in combat, and they generally approach problems head on, weapon drawn.";
+          this.classTable.primeRequisite = "STR (must be 9+)";
+          this.classTable.hitDice = "d8";
+          this.classTable.weapons = "Any";
+          this.classTable.armor = "Any, shields allowed";
+          this.classTable.xpForSecond = "2000";
+          this.classTable.spells = "None";
+          this.classTable.special = "None";
+          this.classTable.firstLevelSaves =
+            "<ol><li>Death Ray or Poison: 12</li><li>Magic Wands: 13</li><li>Paralysis or Petrify: 14</li><li>Dragon Breath: 15</li><li>Spells: 17</li></ol>";
+          break;
+
+        case this.classes.CLERIC:
+          this.classDescription =
+            "Clerics are those who have devoted themselves to the service of a deity, pantheon or other belief system. They are called to go abroad from the temple and serve their deity in a more direct way, smiting undead monsters and aiding in the battle against evil and chaos.";
+          this.classTable.primeRequisite = "WIS (must be 9+)";
+          this.classTable.hitDice = "d6";
+          this.classTable.weapons =
+            "Blunt weapons only (clubs, maces, mauls, quarterstaves, slings, warhammers)";
+          this.classTable.armor = "Any, shields allowed";
+          this.classTable.xpForSecond = "1500";
+          this.classTable.spells = "None at first level";
+          this.classTable.special = "Turn undead";
+          this.classTable.firstLevelSaves =
+            "<ol><li>Death Ray or Poison: 11</li><li>Magic Wands: 12</li><li>Paralysis or Petrify: 14</li><li>Dragon Breath: 16</li><li>Spells: 15</li></ol>";
+          break;
+
+        case this.classes.MAGICUSER:
+          this.classDescription =
+            "Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding";
+          this.classTable.primeRequisite = "INT (must be 9+)";
+          this.classTable.hitDice = "d4";
+          this.classTable.weapons = "Cudgel, dagger, walking staff";
+          this.classTable.armor = "None";
+          this.classTable.xpForSecond = "2500";
+          this.classTable.spells = "1 first level spell";
+          this.classTable.special = "None";
+          this.classTable.firstLevelSaves =
+            "<ol><li>Death Ray or Poison: 13</li><li>Magic Wands: 14</li><li>Paralysis or Petrify: 13</li><li>Dragon Breath: 16</li><li>Spells: 15</li></ol>";
+          break;
+
+        case this.classes.THIEF:
+          this.classDescription =
+            "Thieves are those who take what they want or need by stealth, disarming traps and picking locks to get to the gold they crave; or “borrowing” money from pockets, beltpouches, etc. right under the nose of the 'mark' without the victim ever knowing.";
+          this.classTable.primeRequisite = "DEX (must be 9+)";
+          this.classTable.hitDice = "d4";
+          this.classTable.weapons = "Any";
+          this.classTable.armor = "Leather, no shield";
+          this.classTable.xpForSecond = "1250";
+          this.classTable.spells = "None";
+          this.classTable.special = "Sneak attack plus Thieves abilities";
+          this.classTable.firstLevelSaves =
+            "<ol><li>Death Ray or Poison: 13</li><li>Magic Wands: 14</li><li>Paralysis or Petrify: 13</li><li>Dragon Breath: 16</li><li>Spells: 15</li></ol>";
+          break;
+
+        case this.classes.MAGICUSER_FIGHTER:
+          this.classDescription =
+            "Must meet the requirements of both classes. Combination class characters use the best attack bonus and the best saving throw values of their original two classes, BUT MUST GAIN XP EQUAL TO THE COMBINED REQUIREMENTS OF BOTH CLASSES TO ADVANCE IN LEVELS. May both fight and cast magic spells; further, they are allowed to cast magic spells while wearing armor. These characters roll six-sided dice (d6) for hit points.";
+          this.classTable.primeRequisite = "INT, STR (must be 9+)";
+          this.classTable.hitDice = "d6";
+          this.classTable.weapons = "Any";
+          this.classTable.armor = "Any, shields allowed";
+          this.classTable.xpForSecond = "2000 + 2500";
+          this.classTable.spells = "1 first level spell";
+          this.classTable.special = "None";
+          this.classTable.firstLevelSaves =
+            "<ol><li>Death Ray or Poison: 13</li><li>Magic Wands: 14</li><li>Paralysis or Petrify: 14</li><li>Dragon Breath: 16</li><li>Spells: 17</li></ol>";
+          break;
+
+        case this.classes.MAGICUSER_THIEF:
+          this.classDescription =
+            "Must meet the requirements of both classes. Combination class characters use the best attack bonus and the best saving throw values of their original two classes, BUT MUST GAIN XP EQUAL TO THE COMBINED REQUIREMENTS OF BOTH CLASSES TO ADVANCE IN LEVELS. Members of this combination class may cast spells while wearing leather armor, and may useany weapon. ";
+          this.classTable.primeRequisite = "INT, DEX (must be 9+)";
+          this.classTable.hitDice = "d4";
+          this.classTable.weapons = "Any";
+          this.classTable.armor = "Leather, no shield";
+          this.classTable.xpForSecond = "1250 + 2500";
+          this.classTable.spells = "1 first level spell";
+          this.classTable.special = "Sneak attack plus Thieves abilities";
+          this.classTable.firstLevelSaves =
+            "<ol><li>Death Ray or Poison: 13</li><li>Magic Wands: 14</li><li>Paralysis or Petrify: 13</li><li>Dragon Breath: 16</li><li>Spells: 15</li></ol>";
+          break;
+      }
+    },
+    setClassAndSavingThrows: function() {
+      var deathRayBonus = 0;
+      var magicWandsBonus = 0;
+      var paralysisBonus = 0;
+      var dragonBreathBonus = 0;
+      var spellsBonus = 0;
+
+      this.character.class = this.clickedClass;
+
+      switch (this.character.race) {
+        case this.races.DWARF:
+        case this.races.HALFLING:
+          deathRayBonus = 4;
+          magicWandsBonus = 4;
+          paralysisBonus = 4;
+          dragonBreathBonus = 3;
+          spellsBonus = 4;
+          break;
+        case this.races.ELF:
+          magicWandsBonus = 2;
+          paralysisBonus = 1;
+          spellsBonus = 2;
+          break;
+      }
+
+      switch (this.character.class) {
+        case this.classes.FIGHTER:
+          if (
+            this.character.race == this.races.ELF ||
+            this.character.race == this.races.HALFLING
+          ) {
+            this.character.hitDice = "d6";
+          } else {
+            this.character.hitDice = "d8";
+          }
+          this.character.saves.deathray = 12 + deathRayBonus;
+          this.character.saves.magicWands = 13 + magicWandsBonus;
+          this.character.saves.paralysis = 14 + paralysisBonus;
+          this.character.saves.dragonBreath = 15 + dragonBreathBonus;
+          this.character.saves.spells = 17 + spellsBonus;
+          break;
+        case this.classes.CLERIC:
+          this.character.hitDice = "d6";
+          this.character.saves.deathray = 11 + deathRayBonus;
+          this.character.saves.magicWands = 12 + magicWandsBonus;
+          this.character.saves.paralysis = 14 + paralysisBonus;
+          this.character.saves.dragonBreath = 16 + dragonBreathBonus;
+          this.character.saves.spells = 15 + spellsBonus;
+          break;
+        case this.classes.MAGICUSER:
+          this.character.hitDice = "d4";
+          this.character.saves.deathray = 11 + deathRayBonus;
+          this.character.saves.magicWands = 12 + magicWandsBonus;
+          this.character.saves.paralysis = 14 + paralysisBonus;
+          this.character.saves.dragonBreath = 16 + dragonBreathBonus;
+          this.character.saves.spells = 15 + spellsBonus;
+          break;
+        case this.classes.THIEF:
+          this.character.hitDice = "d4";
+          this.character.saves.deathray = 11 + deathRayBonus;
+          this.character.saves.magicWands = 12 + magicWandsBonus;
+          this.character.saves.paralysis = 14 + paralysisBonus;
+          this.character.saves.dragonBreath = 16 + dragonBreathBonus;
+          this.character.saves.spells = 15 + spellsBonus;
+          break;
+      }
+    },
+    printCharacterSheet() {
+      var newWindow = window.open();
+      newWindow.document.write(
+        "<html><head><title>" + document.title + "</title>"
+      );
+      newWindow.document.write(
+        '<link rel="stylesheet" href="/dist/main.css" type="text/css" />'
+      );
+      newWindow.document.write(
+        '<link rel="stylesheet" href="/src/assets/print.css" type="text/css" />'
+      );
+      newWindow.document.write("</head><body >");
+      newWindow.document.write("<h1>" + document.title + "</h1>");
+      newWindow.document.write(
+        document.getElementById("characterSheet").innerHTML
+      );
     }
   }
 };
@@ -871,11 +1157,18 @@ a {
   width: 70%;
 }
 
+.sheetFieldFull {
+  display: inline-block;
+  border-style: solid;
+  border-width: 0px 0px 2px 0px;
+  width: 98%;
+}
+
 .sheetSmallField {
   display: inline-block;
   border-style: solid;
   border-width: 0px 0px 2px 0px;
-  width: 20%;
+  width: 25%;
 }
 
 .abilityName {
@@ -890,5 +1183,13 @@ a {
 
 .charSheet {
   background-color: #fffff8;
+}
+
+.dieRoll {
+  background-color: ghostwhite;
+}
+
+.dieTotal {
+  background-color: palegreen;
 }
 </style>
