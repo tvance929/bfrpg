@@ -1094,6 +1094,22 @@ export default {
           this.character.saves.dragonBreath = 16 + dragonBreathBonus;
           this.character.saves.spells = 15 + spellsBonus;
           break;
+        case this.classes.MAGICUSER_FIGHTER:
+          this.character.hitDice = "d6";
+          this.character.saves.deathray = 13 + deathRayBonus;
+          this.character.saves.magicWands = 14 + magicWandsBonus;
+          this.character.saves.paralysis = 14 + paralysisBonus;
+          this.character.saves.dragonBreath = 16 + dragonBreathBonus;
+          this.character.saves.spells = 17 + spellsBonus;
+          break;
+        case this.classes.MAGICUSER_THIEF:
+          this.character.hitDice = "d4";
+          this.character.saves.deathray = 13 + deathRayBonus;
+          this.character.saves.magicWands = 14 + magicWandsBonus;
+          this.character.saves.paralysis = 13 + paralysisBonus;
+          this.character.saves.dragonBreath = 16 + dragonBreathBonus;
+          this.character.saves.spells = 15 + spellsBonus;
+          break;
       }
     },
     printCharacterSheet() {
