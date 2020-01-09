@@ -266,29 +266,7 @@
       <b-container fluid>
         <b-row class="my-1">
           <b-col>
-            <b-container fluid class="onepercent" id="diceRoller">
-              <b-row class="my-1">
-                <b-col sm="2">
-                  <b-button
-                    variant="primary"
-                    v-if="currentsection != sections.CLASS"
-                    v-on:click="rollForAbility()"
-                  >ROLL DICE</b-button>
-                </b-col>
-                <b-col class="border dieRoll">
-                  <span>{{randomroll.one}}</span>
-                </b-col>
-                <b-col class="border dieRoll">
-                  <span>{{randomroll.two}}</span>
-                </b-col>
-                <b-col class="border dieRoll">
-                  <span>{{randomroll.three}}</span>
-                </b-col>
-                <b-col class="border dieTotal">
-                  <span>{{randomroll.total}}</span>
-                </b-col>
-              </b-row>
-            </b-container>
+            <diceRoller></diceRoller>
             <b-container fluid class="onepercent">
               <b-row class="my-1">
                 <b-col sm="2">
@@ -305,6 +283,8 @@
                     type="number"
                     min="3"
                     max="18"
+                    v-on:dragover.native="dragOver($event)"
+                    v-on:drop.native="dropped($event, this)"
                   ></b-form-input>
                   <span>{{abilityerrors.strengtherror}}</span>
                 </b-col>
@@ -509,7 +489,7 @@
           <b-button
             variant="primary"
             size="lg"
-            v-if="currentsection != sections.RACE"
+            v-if="currentsection != sections.RACE && currentsection != sections.FINAL"
             v-on:click="changeSection('prev')"
           >PREV</b-button>
         </b-col>
@@ -528,8 +508,13 @@
 </template>
 
 <script>
+import diceRoller from "./DiceRoller.vue";
+
 export default {
   name: "app",
+  components: {
+    diceRoller
+  },
   data() {
     return {
       character: {
@@ -601,12 +586,6 @@ export default {
         ABILITIES: "abilities",
         CLASS: "class",
         FINAL: "final"
-      },
-      randomroll: {
-        one: 0,
-        two: 0,
-        three: 0,
-        total: 0
       },
       abilityerrors: {
         strengtherror: "",
@@ -704,9 +683,6 @@ export default {
       this.abilityerrors.charismaerror = "";
       this.character.class = "";
     },
-    setClass: function(classname) {
-      this.character.class = classname;
-    },
     changeSection: function(prevOrNext) {
       if (prevOrNext == "next") {
         switch (this.currentsection) {
@@ -747,13 +723,6 @@ export default {
             break;
         }
       }
-    },
-    rollForAbility: function() {
-      this.randomroll.one = Math.floor(Math.random() * 6 + 1);
-      this.randomroll.two = Math.floor(Math.random() * 6 + 1);
-      this.randomroll.three = Math.floor(Math.random() * 6 + 1);
-      this.randomroll.total =
-        this.randomroll.one + this.randomroll.two + this.randomroll.three;
     },
     checkAbilityScore: function(ability) {
       switch (ability) {
@@ -1041,16 +1010,16 @@ export default {
       switch (this.character.race) {
         case this.races.DWARF:
         case this.races.HALFLING:
-          deathRayBonus = 4;
-          magicWandsBonus = 4;
-          paralysisBonus = 4;
-          dragonBreathBonus = 3;
-          spellsBonus = 4;
+          deathRayBonus = "  (+4 bonus)";
+          magicWandsBonus = "  (+4 bonus)";
+          paralysisBonus = "  (+4 bonus)";
+          dragonBreathBonus = "  (+3 bonus)";
+          spellsBonus = "  (+4 bonus)";
           break;
         case this.races.ELF:
-          magicWandsBonus = 2;
-          paralysisBonus = 1;
-          spellsBonus = 2;
+          magicWandsBonus = "  (+2 bonus)";
+          paralysisBonus = "  (+1 bonus)";
+          spellsBonus = "  (+2 bonus)";
           break;
       }
 
@@ -1112,7 +1081,7 @@ export default {
           break;
       }
     },
-    printCharacterSheet() {
+    printCharacterSheet: function() {
       var newWindow = window.open();
       newWindow.document.write(
         "<html><head><title>" + document.title + "</title>"
@@ -1128,6 +1097,20 @@ export default {
       newWindow.document.write(
         document.getElementById("characterSheet").innerHTML
       );
+    },
+    dragOver: function(event) {
+      event.preventDefault();
+    },
+    dropped: function(event, abilityScore) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text");
+      window.console.log("data is : " + event.dataTransfer.getData("text") + ' abilityScore is ' + abilityScore);
+      this.abilityScore = event.dataTransfer.getData("text");
+      //ev.target.appendChild(document.getElementById(data));
+      // Clear the drag data cache (for all formats/types)
+      event.dataTransfer.clearData();
+
+      
     }
   }
 };
